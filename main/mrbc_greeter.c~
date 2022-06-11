@@ -1,0 +1,27 @@
+#include "mrubyc.h"
+
+static struct RClass* mrbc_class_esp32_greeter;
+
+/* C 言語での "Hello World"*/
+void c_hello(){
+  printf("Hello, world!\n");
+}
+
+/* ラッパープログラム */
+static void
+ruby_hello(mrb_vm* vm, mrb_value* v, int argc)
+{
+  c_hello();  //別プログラムを呼び出す
+}
+
+static void
+ruby_hello2(mrb_vm* vm, mrb_value* v, int argc)
+{
+  printf("Hello, world! ver.2\n");
+}
+
+static void
+mrbc_hello_init(mrb_vm* vm)
+{
+  mrbc_define_method(vm, mrbc_class_esp32_greeter, "greet", ruby_hello);
+}
